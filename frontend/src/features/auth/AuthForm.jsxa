@@ -1,0 +1,141 @@
+import React from 'react';
+import { BeatLoader } from 'react-spinners';
+import { Link } from 'react-router-dom';
+
+const AuthForm = ({
+  type = 'login', // Default to login if not specified
+  formData = { // Default empty form data
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  },
+  errors = {},
+  isLoading = false,
+  serverError = null,
+  handleChange = () => {}, // Default empty function
+  handleSubmit = () => {} // Default empty function
+}) => {
+  // Safely destructure with defaults
+  const { 
+    username = '', 
+    email = '', 
+    password = '', 
+    confirmPassword = '' 
+  } = formData || {};
+
+  return (
+    <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-center">
+        {type === 'register' ? 'Create Account' : 'Sign In'}
+      </h2>
+      
+      {serverError && (
+        <div className="p-3 text-sm text-red-700 bg-red-100 rounded-md">
+          {serverError}
+        </div>
+      )}
+
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        {type === 'register' && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Username
+              <input
+                name="username"
+                value={username}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </label>
+            {errors.username && (
+              <p className="mt-1 text-sm text-red-600">{errors.username}</p>
+            )}
+          </div>
+        )}
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            />
+          </label>
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+              className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            />
+          </label>
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+          )}
+        </div>
+
+        {type === 'register' && (
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Confirm Password
+              <input
+                type="password"
+                name="confirmPassword"
+                value={confirmPassword}
+                onChange={handleChange}
+                className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              />
+            </label>
+            {errors.confirmPassword && (
+              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+            )}
+          </div>
+        )}
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+        >
+          {isLoading ? (
+            <BeatLoader size={8} color="#ffffff" />
+          ) : (
+            type === 'register' ? 'Register' : 'Sign In'
+          )}
+        </button>
+      </form>
+
+      <div className="text-sm text-center">
+        {type === 'register' ? (
+          <p>
+            Already have an account?{' '}
+            <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">
+              Sign in
+            </Link>
+          </p>
+        ) : (
+          <p>
+            Don't have an account?{' '}
+            <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
+              Register
+            </Link>
+          </p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default AuthForm;
