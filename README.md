@@ -14,7 +14,9 @@ If you are developing a production application, we recommend using TypeScript an
 To run VQM
 Download PGSQL from here --> https://www.postgresql.org/download/
 
-First change directory to Backend
+Create DB and enter thos details in "settings.py" file 
+
+change directory to Backend
 and follow these commands
 create env if not h/ere
 python -m venv venv
